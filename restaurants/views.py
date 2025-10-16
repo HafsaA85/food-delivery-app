@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import FoodItem, Restaurant
 from django.contrib.auth.decorators import login_required
 from .forms import FoodItemForm, SignUpForm
+from .forms import ProfileForm
 
 # ----------------------------
 # Restaurant signup
@@ -122,3 +123,63 @@ def delete_food_item(request, pk):
     else:
         messages.error(request, "You are not authorized to delete this item.")
     return redirect('dashboard')
+
+
+@login_required
+def profile_view(request):
+    # Ensure user has a Restaurant
+    try:
+        restaurant = Restaurant.objects.get(user=request.user)
+    except Restaurant.DoesNotExist:
+        restaurant = None
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            # Update User
+            request.user.first_name = form.cleaned_data.get('first_name')
+            request.user.last_name = form.cleaned_data.get('last_name')
+            request.user.email = form.cleaned_data.get('email')
+            request.user.save()
+
+            # Update or create Restaurant
+            r_name = form.cleaned_data.get('restaurant_name') or (restaurant.name if restaurant else request.user.username)
+            r_address = form.cleaned_data.get('address') or ''
+            r_phone = form.cleaned_data.get('phone_number') or ''
+            r_email = form.cleaned_data.get('restaurant_email') or request.user.email
+
+            if restaurant:
+                restaurant.name = r_name
+                restaurant.address = r_address
+                restaurant.phone_number = r_phone
+                restaurant.email = r_email
+                restaurant.save()
+            else:
+                Restaurant.objects.create(
+                    user=request.user,
+                    name=r_name,
+                    address=r_address,
+                    phone_number=r_phone,
+                    email=r_email,
+                )
+
+            messages.success(request, "Profile updated successfully.")
+            return redirect('profile')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        initial = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+        }
+        if restaurant:
+            initial.update({
+                'restaurant_name': restaurant.name,
+                'address': restaurant.address,
+                'phone_number': restaurant.phone_number,
+                'restaurant_email': restaurant.email,
+            })
+        form = ProfileForm(initial=initial)
+
+    return render(request, 'restaurants/profile.html', {'form': form})
