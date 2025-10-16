@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -43,13 +43,13 @@ def signup_view(request):
 # ----------------------------
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')  # safer
+        username = request.POST.get('username')
         password = request.POST.get('password')
         
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # or wherever
+            return redirect('dashboard')
         else:
             messages.error(request, "Invalid username or password.")
     
@@ -73,7 +73,6 @@ def dashboard_view(request):
         messages.error(request, "No restaurant linked to this user.")
         return redirect('signup')
 
-    # Handle form submission
     if request.method == 'POST':
         form = FoodItemForm(request.POST)
         if form.is_valid():
@@ -88,21 +87,38 @@ def dashboard_view(request):
     menu_items = restaurant.menu_items.all()  # related_name='menu_items'
     return render(request, 'restaurants/dashboard.html', {'menu_items': menu_items, 'form': form})
 
+# ----------------------------
+# Edit food item
+# ----------------------------
+@login_required
 def edit_food_item(request, pk):
     food = get_object_or_404(FoodItem, pk=pk)
+    # Only allow owner restaurant to edit
+    if food.restaurant.user != request.user:
+        messages.error(request, "You are not authorized to edit this item.")
+        return redirect('dashboard')
+
     if request.method == 'POST':
         form = FoodItemForm(request.POST, instance=food)
         if form.is_valid():
             form.save()
+            messages.success(request, "Food item updated successfully.")
             return redirect('dashboard')
     else:
         form = FoodItemForm(instance=food)
     
     return render(request, 'restaurants/edit_food_item.html', {'form': form})
 
+# ----------------------------
+# Delete food item
+# ----------------------------
+@login_required
 def delete_food_item(request, pk):
     food = get_object_or_404(FoodItem, pk=pk)
-    # Optional: only allow the owner restaurant to delete
-    if food.restaurant == request.user.restaurant:
+    # Only allow owner restaurant to delete
+    if food.restaurant.user == request.user:
         food.delete()
+        messages.success(request, "Food item deleted successfully.")
+    else:
+        messages.error(request, "You are not authorized to delete this item.")
     return redirect('dashboard')
