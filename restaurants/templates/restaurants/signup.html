@@ -1,0 +1,83 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'restaurants/css/signup.css' %}">
+</head>
+<body>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="signup-card p-4">
+        <h2 class="mb-4 text-center">Sign Up</h2>
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error|escape }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error|escape }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3 row align-items-center">
+                <label class="col-sm-4 col-form-label" for="{{ form.username.id_for_label }}">Username:</label>
+                <div class="col-sm-8">
+                    {{ form.username|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-3 row align-items-center">
+                <label class="col-sm-4 col-form-label" for="{{ form.email.id_for_label }}">Email:</label>
+                <div class="col-sm-8">
+                    {{ form.email|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-3 row align-items-center">
+                <label class="col-sm-4 col-form-label" for="{{ form.password1.id_for_label }}">Password:</label>
+                <div class="col-sm-8">
+                    {{ form.password1|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-3 row align-items-center">
+                <label class="col-sm-4 col-form-label" for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+                <div class="col-sm-8">
+                    {{ form.password2|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <div class="mb-4 row align-items-center">
+                <label class="col-sm-4 col-form-label" for="{{ form.restaurant_name.id_for_label }}">Restaurant Name:</label>
+                <div class="col-sm-8">
+                    {{ form.restaurant_name|add_class:"form-control" }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-signup w-100">Sign Up</button>
+        </form>
+
+        <p class="mt-3 text-center">
+            Already have an account? <a href="{% url 'login' %}">Login</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
