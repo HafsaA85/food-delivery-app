@@ -183,3 +183,16 @@ def profile_view(request):
         form = ProfileForm(initial=initial)
 
     return render(request, 'restaurants/profile.html', {'form': form})
+
+@login_required
+def add_food_item(request):
+    form = FoodItemForm()
+    if request.method == "POST":
+        form = FoodItemForm(request.POST)
+        if form.is_valid():
+            food_item = form.save(commit=False)       # Don't save to DB yet
+            food_item.restaurant = request.user.restaurant  # Assign the restaurant
+            food_item.save()                          # Now save
+            return redirect('dashboard')
+    context = {'form': form}
+    return render(request, 'restaurants/add_food_item.html', context)
