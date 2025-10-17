@@ -53,3 +53,56 @@ body {
 input[type="number"] {
     width: 120px;
 }
+
+/* Site banner (nav transformed into a prominent header) */
+.site-banner {
+    background: linear-gradient(90deg, #b02a37 0%, #dc3545 50%, #ff6b6b 100%);
+    /* make the banner fixed at the top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4.5rem; /* reserve space for the banner */
+    padding: 0 0.75rem;
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.site-banner .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    letter-spacing: 0.6px;
+}
+
+.site-banner .nav-link {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+/* make dropdown menu darker to match banner */
+.site-banner .dropdown-menu {
+    background-color: rgba(0,0,0,0.85);
+    border: none;
+}
+
+.site-banner .dropdown-item {
+    color: #fff;
+}
+
+@media (max-width: 575px) {
+    .site-banner .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+/* Back link on forms */
+.back-link {
+    color: #ffffff; /* white arrow when on dark banner */
+    font-size: 1.25rem;
+}
+
+.back-link:hover {
+    color: #f8f9fa;
+}
