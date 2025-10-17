@@ -1,9 +1,8 @@
-/* Login page background */
-body {
-    background-color: #000000; /* black */
+/* Login page specifics: avoid global body overrides so auth-bg can control background */
+body.login-page {
+    /* legacy class support if used elsewhere; prefer .auth-bg */
+    background-color: #000000; /* black fallback when auth-bg not present */
     color: #ffffff;
-    /* push page content below fixed banner (matches banner height) */
-    padding-top: 4.75rem;
 }
 
 /* Login card */
