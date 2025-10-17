@@ -11,7 +11,16 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'dashboard' %}">Home</a>
         </li>
+
         {% if user.is_authenticated %}
+        <!-- Add Food button -->
+        <li class="nav-item ms-2">
+          <a class="btn btn-success nav-link text-white px-3" href="{% url 'add_food_item' %}">
+            <i class="bi bi-plus-circle"></i> Add Food
+          </a>
+        </li> 
+        
+        <!-- User dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ user.username }}
@@ -25,6 +34,7 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign Up</a></li>
         {% endif %}
+
       </ul>
     </div>
   </div>
