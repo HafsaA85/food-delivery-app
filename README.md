@@ -1,31 +1,29 @@
 ﻿Food Delivery Application
 
-
-Table of Contents
-1. Overview
-2. Project Structure
-3. UX Design
-    * Strategy
-    * Scope
-    * Structure
-    * Skeleton
-    * Surface
-4. User Stories
-5. Features
-    * Implemented Features
-    * Future Enhancements
-6. Models
-7. Views
-8. URLs
-9. Templates
-10. Static Files
-11. Testing
-12. Deployment
-    * Heroku Deployment
-    * Local Deployment
-13. Technologies Used
-14. Credits and Acknowledgements
-
+## Table of Contents
+1. [Overview](#overview)
+2. [Project Structure](#project-structure)
+3. [UX Design](#ux-design)
+   - [Strategy](#strategy)
+   - [Scope](#scope)
+   - [Structure](#structure)
+   - [Skeleton](#skeleton)
+   - [Surface](#surface)
+4. [User Stories](#user-stories)
+5. [Features](#features)
+   - [Implemented Features](#implemented-features)
+   - [Future Enhancements](#future-enhancements)
+6. [Models](#models)
+7. [Views](#views)
+8. [URLs](#urls)
+9. [Templates](#templates)
+10. [Static Files](#static-files)
+11. [Testing](#testing)
+12. [Deployment](#deployment)
+    - [Heroku Deployment](#heroku-deployment)
+    - [Local Deployment](#local-deployment)
+13. [Technologies Used](#technologies-used)
+14. [Credits and Acknowledgements](#credits-and-acknowledgements)
 
 Overview
 
@@ -239,6 +237,7 @@ All templates, CSS, and textual content created by the developer.
 Acknowledgements
 * Code Institute for providing project structure and assessment standards.
 * GitHub Copilot and ChatGPT for AI-assisted code suggestions and documentation support.
+
 
 
 
